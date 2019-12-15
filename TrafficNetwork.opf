@@ -1,0 +1,80 @@
+[comment]
+   Written by MOSEK version 9.0.104
+   Date 23-09-19
+   Time 14:38:27
+[/comment]
+
+[hints]
+  [hint NUMVAR] 37 [/hint]
+  [hint NUMCON] 25 [/hint]
+  [hint NUMANZ] 58 [/hint]
+  [hint NUMQNZ] 0 [/hint]
+  [hint NUMCONE] 5 [/hint]
+[/hints]
+
+[variables disallow_new_variables]
+  '1.0' 'traffic_flow[0,1]' 'traffic_flow[0,2]' 'traffic_flow[1,3]' 'traffic_flow[2,1]'
+  'traffic_flow[2,3]' 'traffic_flow[3,0]' 'travel_time[0,1]' 'travel_time[0,2]' 'travel_time[1,3]'
+  'travel_time[2,1]' 'travel_time[2,3]' 'd[0,1]' 'd[0,2]' 'd[1,3]' 'd[2,1]' 'd[2,3]'
+  'z[0,1]' 'z[0,2]' 'z[1,3]' 'z[2,1]' 'z[2,3]' '(1a)[0,0].coneslack' '(1a)[0,1].coneslack'
+  '(1a)[0,2].coneslack' '(1a)[1,0].coneslack' '(1a)[1,1].coneslack' '(1a)[1,2].coneslack'
+  '(1a)[2,0].coneslack' '(1a)[2,1].coneslack' '(1a)[2,2].coneslack' '(1a)[3,0].coneslack'
+  '(1a)[3,1].coneslack' '(1a)[3,2].coneslack' '(1a)[4,0].coneslack' '(1a)[4,1].coneslack'
+  '(1a)[4,2].coneslack'
+[/variables]
+
+[objective minimize 'Average travel time']
+   2e-1 'traffic_flow[0,1]' + 5e-2 'traffic_flow[0,2]' + 5e-2 'traffic_flow[1,3]'
+     + 1e-1 'traffic_flow[2,1]' + 3e-1 'traffic_flow[2,3]' + 5e-2 'd[0,1]' + 5e-2 'd[0,2]'
+     + 5e-2 'd[1,3]' + 5e-2 'd[2,1]' + 5e-2 'd[2,3]'
+[/objective]
+
+[constraints]
+  [con '(1a)[0,0]']  'd[0,1]' - '(1a)[0,0].coneslack' = 0 [/con]
+  [con '(1a)[0,1]']  'z[0,1]' - '(1a)[0,1].coneslack' = 0 [/con]
+  [con '(1a)[0,2]']  'traffic_flow[0,1]' - '(1a)[0,2].coneslack' = 0 [/con]
+  [con '(1a)[1,0]']  'd[0,2]' - '(1a)[1,0].coneslack' = 0 [/con]
+  [con '(1a)[1,1]']  'z[0,2]' - '(1a)[1,1].coneslack' = 0 [/con]
+  [con '(1a)[1,2]']  'traffic_flow[0,2]' - '(1a)[1,2].coneslack' = 0 [/con]
+  [con '(1a)[2,0]']  'd[2,1]' - '(1a)[2,0].coneslack' = 0 [/con]
+  [con '(1a)[2,1]']  'z[2,1]' - '(1a)[2,1].coneslack' = 0 [/con]
+  [con '(1a)[2,2]']  'traffic_flow[2,1]' - '(1a)[2,2].coneslack' = 0 [/con]
+  [con '(1a)[3,0]']  'd[1,3]' - '(1a)[3,0].coneslack' = 0 [/con]
+  [con '(1a)[3,1]']  'z[1,3]' - '(1a)[3,1].coneslack' = 0 [/con]
+  [con '(1a)[3,2]']  'traffic_flow[1,3]' - '(1a)[3,2].coneslack' = 0 [/con]
+  [con '(1a)[4,0]']  'd[2,3]' - '(1a)[4,0].coneslack' = 0 [/con]
+  [con '(1a)[4,1]']  'z[2,3]' - '(1a)[4,1].coneslack' = 0 [/con]
+  [con '(1a)[4,2]']  'traffic_flow[2,3]' - '(1a)[4,2].coneslack' = 0 [/con]
+  [con '(1b)[0]']  - 1e+1 '1.0' + 'traffic_flow[0,1]' + 'z[0,1]' = 0 [/con]
+  [con '(1b)[1]']  - 1.42857142857143 '1.0' + 1.19047619047619e-1 'traffic_flow[0,2]' + 'z[0,2]' = 0 [/con]
+  [con '(1b)[2]']  - 2 '1.0' + 1.33333333333333e-1 'traffic_flow[1,3]' + 'z[1,3]' = 0 [/con]
+  [con '(1b)[3]']  - 1.11111111111111 '1.0' + 5.55555555555556e-2 'traffic_flow[2,1]' + 'z[2,1]' = 0 [/con]
+  [con '(1b)[4]']  - 1e+1 '1.0' + 'traffic_flow[2,3]' + 'z[2,3]' = 0 [/con]
+  [con '(2)[0]']  - 'traffic_flow[0,1]' - 'traffic_flow[0,2]' + 'traffic_flow[3,0]' = 0 [/con]
+  [con '(2)[1]']  'traffic_flow[0,1]' - 'traffic_flow[1,3]' + 'traffic_flow[2,1]' = 0 [/con]
+  [con '(2)[2]']  'traffic_flow[0,2]' - 'traffic_flow[2,1]' - 'traffic_flow[2,3]' = 0 [/con]
+  [con '(2)[3]']  'traffic_flow[1,3]' + 'traffic_flow[2,3]' - 'traffic_flow[3,0]' = 0 [/con]
+  [con '(3)[]']  'traffic_flow[3,0]' = 2e+1 [/con]
+[/constraints]
+
+[bounds]
+  [b]               '1.0' =  1 [/b]
+  [b] 0e+00      <= 'traffic_flow[0,1]','traffic_flow[0,2]','traffic_flow[1,3]','traffic_flow[2,1]' [/b]
+  [b] 0e+00      <= 'traffic_flow[2,3]','traffic_flow[3,0]','travel_time[0,1]','travel_time[0,2]' [/b]
+  [b] 0e+00      <= 'travel_time[1,3]','travel_time[2,1]','travel_time[2,3]','d[0,1]' [/b]
+  [b] 0e+00      <= 'd[0,2]','d[1,3]','d[2,1]','d[2,3]','z[0,1]','z[0,2]','z[1,3]' [/b]
+  [b] 0e+00      <= 'z[2,1]','z[2,3]' [/b]
+  [b]               '(1a)[0,0].coneslack','(1a)[0,1].coneslack','(1a)[0,2].coneslack' free [/b]
+  [b]               '(1a)[1,0].coneslack','(1a)[1,1].coneslack','(1a)[1,2].coneslack' free [/b]
+  [b]               '(1a)[2,0].coneslack','(1a)[2,1].coneslack','(1a)[2,2].coneslack' free [/b]
+  [b]               '(1a)[3,0].coneslack','(1a)[3,1].coneslack','(1a)[3,2].coneslack' free [/b]
+  [b]               '(1a)[4,0].coneslack','(1a)[4,1].coneslack','(1a)[4,2].coneslack' free [/b]
+  [cone rquad 'k000000022_'] '(1a)[0,0].coneslack', '(1a)[0,1].coneslack', '(1a)[0,2].coneslack' [/cone]
+  [cone rquad 'k000000026_'] '(1a)[1,0].coneslack', '(1a)[1,1].coneslack', '(1a)[1,2].coneslack' [/cone]
+  [cone rquad 'k000000030_'] '(1a)[2,0].coneslack', '(1a)[2,1].coneslack', '(1a)[2,2].coneslack' [/cone]
+  [cone rquad 'k000000000_'] '(1a)[3,0].coneslack', '(1a)[3,1].coneslack', '(1a)[3,2].coneslack' [/cone]
+  [cone rquad 'k000000000_'] '(1a)[4,0].coneslack', '(1a)[4,1].coneslack', '(1a)[4,2].coneslack' [/cone]
+[/bounds]
+
+[solutions]
+[/solutions]
